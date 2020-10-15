@@ -16,20 +16,18 @@ routes.get('/users', async (_, response) => {
   return response.json(users);
 })
 
-routes.get('/users/:id', (request, response) => {
+routes.get('/users/:id', async (request, response) => {
   const _id = request.params.id;
 
-  db.findOne({ _id }, (err, doc) => {
-    if (err) return response.json(400).json({ error: 'Fails on find users' })
+  const user = await UserRepository.findOne({ _id });
 
-    return response.json(doc)
-  })
+  return response.json(user)
 })
 
 routes.put('/users/:id', (request, response) => {
   const _id = request.params.id;
   db.update({ _id }, { $set: request.body }, (err) => {
-    if(err) return response.json(400).json({ error: 'Fails on update user' })
+    if (err) return response.json(400).json({ error: 'Fails on update user' })
 
     return response.status(204).json()
   })
@@ -39,7 +37,7 @@ routes.delete('/users/:id', (request, response) => {
   const _id = request.params.id;
 
   db.remove({ _id }, {}, (err) => {
-    if(err) return response.status(400).json({ error: 'Fails on remove user' })
+    if (err) return response.status(400).json({ error: 'Fails on remove user' })
 
     return response.status(204).json()
   })
