@@ -45,6 +45,16 @@ class UserRepository {
       })
     })
   }
+
+  destroy(condition) {
+    return new Promise((resolve, reject) => {
+      this.database.remove(condition, {}, (err) => {
+        if (err) reject(err)
+
+        resolve()
+      })
+    })
+  }
 }
 
 module.exports = new UserRepository();

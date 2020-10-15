@@ -32,14 +32,12 @@ routes.put('/users/:id', async (request, response) => {
   return response.status(204).json();
 })
 
-routes.delete('/users/:id', (request, response) => {
+routes.delete('/users/:id', async (request, response) => {
   const _id = request.params.id;
 
-  db.remove({ _id }, {}, (err) => {
-    if (err) return response.status(400).json({ error: 'Fails on remove user' })
+  await UserRepository.destroy({ _id });
 
-    return response.status(204).json()
-  })
+  return response.status(204).json()
 })
 
 module.exports = routes;
