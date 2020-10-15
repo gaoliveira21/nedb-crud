@@ -24,13 +24,12 @@ routes.get('/users/:id', async (request, response) => {
   return response.json(user)
 })
 
-routes.put('/users/:id', (request, response) => {
+routes.put('/users/:id', async (request, response) => {
   const _id = request.params.id;
-  db.update({ _id }, { $set: request.body }, (err) => {
-    if (err) return response.json(400).json({ error: 'Fails on update user' })
 
-    return response.status(204).json()
-  })
+  await UserRepository.update({ _id }, request.body);
+
+  return response.status(204).json();
 })
 
 routes.delete('/users/:id', (request, response) => {

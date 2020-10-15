@@ -35,6 +35,16 @@ class UserRepository {
       })
     });
   }
+
+  update(condition, payload) {
+    return new Promise((resolve, reject) => {
+      this.database.update(condition, { $set: payload }, (err) => {
+        if (err) reject(err)
+
+        resolve()
+      })
+    })
+  }
 }
 
 module.exports = new UserRepository();
